@@ -1,0 +1,34 @@
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+<div class="row">
+  <div class="col border p-3">
+    <h3>Technical task</h3>
+    <% unless current_user.technical_task.present? %>
+      <%= form_with name: 'task_type', url: assign_task_url, class: '', method: :patch do |f| %>
+        <%= f.hidden_field :task_type, value: Task.task_types[:technical] %>
+        <%= f.submit 'Get one', class: 'btn btn-primary' %>
+      <% end %>
+    <% else %>
+      <%= form_with name: 'answer', url: 'answer' , class: '', method: :patch do |f| %>
+        <%= f.hidden_field :task_type, value: Task.task_types[:technical] %>
+        <div class="field">
+          <%= form.label :answer_url %>
+          <%= form.text_field :answer_url %>
+        </div>
+        <%= f.submit 'Submit answer', class: 'btn btn-primary' %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col border p-3 ">
+    <h3>English task</h3>
+    <% unless current_user.english_task.present? %>
+      <%= form_with name: 'task_type', url: assign_task_url, method: :patch do |f|  %>
+        <%=  f.hidden_field :task_type, value: Task.task_types[:english]  %>
+        <%= f.submit 'Get one', class: 'btn btn-primary' %>
+      <% end %>
+    <% else %>
+
+    <% end %>
+  </div>
+</div>

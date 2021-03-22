@@ -1,0 +1,13 @@
+enum
+<div class="field">
+  <%= f.label :phone_number_type %><br>
+  <%= f.select :phone_number_type, Phone.phone_number_types.keys %>
+</div>
+
+  enum level: %i(junior middle senior)
+  validates :level, in: levels.keys
+
+  class ItemType
+    UNITS = %w[kg packages pieces]
+    validates :unit, inclusion: { in: UNITS }
+  end

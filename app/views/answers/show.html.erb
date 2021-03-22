@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @answer.user_id %>
+</p>
+
+<p>
+  <strong>Task:</strong>
+  <%= @answer.task_id %>
+</p>
+
+<p>
+  <strong>Link:</strong>
+  <%= @answer.link %>
+</p>
+
+<p>
+  <strong>Attachment:</strong>
+  <%= @answer.attachment %>
+</p>
+
+<%= link_to 'Edit', edit_answer_path(@answer) %> |
+<%= link_to 'Back', answers_path %>
