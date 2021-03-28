@@ -1,59 +1,39 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: %i[ show edit update destroy ]
-
-  # GET /answers or /answers.json
-  def index
-    @answers = Answer.all
-  end
-
-  # GET /answers/1 or /answers/1.json
-  def show
-  end
-
-  # GET /answers/new
+  # GET /answers/new/:task_id
   def new
-    @answer = Answer.new
+    params.require(:task_id)
+    @task_id       = params[:task_id]
+    @task          = Task.find_by(id: @task_id)
+    english_task   = current_user.english_task
+    technical_task = current_user.technical_task
+
+    if !@task.present? || technical_task.id ==! @task_id || english_task.id ==! @task_id
+      flash[:alert] = 'No such task'
+      redirect_to :root
+    end
+
+    @answer      = Answer.new
+    @answer.task = @task
+
+    render template: 'answers/new'
   end
 
-  # GET /answers/1/edit
-  def edit
-  end
-
-  # POST /answers or /answers.json
   def create
-    @answer = Answer.new(answer_params)
+    filtered_answer_params = answer_params
+    @answer = Answer.new(filtered_answer_params)
+    @task   = Task.find_by(id: filtered_answer_params[task_id])
 
-    respond_to do |format|
-      if @answer.save
-        format.html { redirect_to @answer, notice: "Answer was successfully created." }
-        format.json { render :show, status: :created, location: @answer }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @answer.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+    uploaded_io = filtered_answer_params[:attachment]
 
-  # PATCH/PUT /answers/1 or /answers/1.json
-  def update
-    respond_to do |format|
-      if @answer.update(answer_params)
-        format.html { redirect_to @answer, notice: "Answer was successfully updated." }
-        format.json { render :show, status: :ok, location: @answer }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @answer.errors, status: :unprocessable_entity }
-      end
+    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
     end
-  end
 
-  # DELETE /answers/1 or /answers/1.json
-  def destroy
-    @answer.destroy
-    respond_to do |format|
-      format.html { redirect_to answers_url, notice: "Answer was successfully destroyed." }
-      format.json { head :no_content }
+    if @answer.save
+      redirect_to :root
     end
+
+    render new_answer_for_task
   end
 
   private
@@ -64,6 +44,10 @@ class AnswersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def answer_params
-      params.require(:answer).permit(:user_id, :task_id, :link, :attachment)
+      params.require(:answer).permit(:task_id, :link, :attachment)
+    end
+
+    def define_task(task_id)
+      @task = Task.find_by(id: task_id)
     end
 end

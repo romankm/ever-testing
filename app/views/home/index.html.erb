@@ -3,9 +3,17 @@
 <div class="row">
   <div class="col border p-3">
     <% technical_task_is_assigned = current_user.technical_task.present? %>
+
     <h3><%= technical_task_is_assigned ? 'Technical task' : 'Answer for technical task' %></h3>
     <% if technical_task_is_assigned %>
-
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <p class="card-text">
+            <%= current_user.technical_task.body %>
+          </p>
+          <%= link_to 'Завантажити тестове', "answers/new/#{ current_user.technical_task.id }", class: 'card-link'%>
+        </div>
+      </div>
     <%  else  %>
       <%=  form_with name: 'task_type', url: assign_task_url, class: '', method: :patch do |f|  %>
         <%= f.hidden_field :task_type, value: Task.task_types[:technical] %>
@@ -15,25 +23,38 @@
   </div>
 
   <div class="col border p-3 ">
+    <% english_task_is_assigned = current_user.english_task.present? %>
     <h3>English task</h3>
-    <% if current_user.english_task.present? %>
-      <%= form_with name: 'answer', url: 'answer' , class: '', multipart: true do |f| %>
-        <%= f.hidden_field :task_type, value: Task.task_types[:english] %>
-        <div class="field">
-          <%= f.label 'File', for: :attachment %>
-          <%= f.file_field :attachment %>
+    <% if english_task_is_assigned %>
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <p class="card-text">
+            <%= current_user.technical_task.body %>
+          </p>
+          <%= link_to 'Завантажити тест англійської', "answers/new/#{ current_user.english_task.id }", class: 'card-link'%>
         </div>
-        <div class="field">
-          <%= f.label 'Github repository url', for: :answer_url %>
-          <%= f.text_field :answer_url %>
-        </div>
-        <%= f.submit 'Submit answer', class: 'btn btn-primary' %>
-      <% end %>
-    <% else %>
+      </div>
+    <%  else  %>
       <%= form_with name: 'task_type', url: assign_task_url, method: :patch do |f|  %>
         <%=  f.hidden_field :task_type, value: Task.task_types[:english]  %>
-        <%= f.submit 'Get one', class: 'btn btn-primary' %>
+        <%= f.submit 'Тест Англійської', class: 'btn btn-primary' %>
       <% end %>
-    <% end %>
+    <%  end %>
+
+      <%#= form_with name: 'answer', url: 'answer' , class: '', multipart: true do |f| %>
+        <%#= f.hidden_field :task_type, value: Task.task_types[:english] %>
+<!--        <div class="field">-->
+          <%#= f.label 'File', for: :attachment %>
+          <%#= f.file_field :attachment %>
+<!--        </div>-->
+<!--        <div class="field">-->
+          <%#= f.label 'Github repository url', for: :answer_url %>
+          <%#= f.text_field :answer_url %>
+<!--        </div>-->
+        <%#= f.submit 'Submit answer', class: 'btn btn-primary' %>
+      <%# end %>
+    <%# else %>
+
+    <%# end %>
   </div>
 </div>
