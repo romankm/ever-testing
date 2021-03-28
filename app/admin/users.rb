@@ -33,6 +33,7 @@ ActiveAdmin.register User do
     end
 
     column :created_at
+
     actions
   end
 end

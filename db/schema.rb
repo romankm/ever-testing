@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_114444) do
   create_table "tasks", force: :cascade do |t|
     t.text "body"
     t.string "attachment"
-    t.string "task_type"
+    t.string "task_type", default: "technical", null: false
     t.string "user_level", default: "junior", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

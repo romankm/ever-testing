@@ -7,8 +7,8 @@ ActiveAdmin.register Task do
     f.inputs 'Task' do
       f.input :body, required: false
       f.input :attachment, as: :file, required: false
-      f.input :task_type,  collection: Task.task_types.keys, as: :radio,  required: true
-      f.input :user_level, collection: UserLevel::all,       as: :select, required: true
+      f.input :task_type,  collection: Task.task_types.values, as: :radio,  required: true
+      f.input :user_level, collection: UserLevel::all,         as: :select, required: true
     end
 
     f.actions

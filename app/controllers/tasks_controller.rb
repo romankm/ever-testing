@@ -46,6 +46,4 @@ class TasksController < ApplicationController
     def task_params
       params.require(:task).permit(:body, :level, :attachment)
     end
-
-
 end
