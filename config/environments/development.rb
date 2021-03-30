@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # devise
-  config.action_mailer.default_url_options = { protocol: 'http', host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options.host = 'http://localhost:3000'
 
   # letter opener
   config.action_mailer.delivery_method = :letter_opener

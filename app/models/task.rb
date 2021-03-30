@@ -3,5 +3,5 @@ class Task < ApplicationRecord
   validates :task_type, inclusion: { in: task_types.values, message: '%{value} is not a valid type' }
 
   has_many :users
-  has_one :answer
+  has_many :answers
 end

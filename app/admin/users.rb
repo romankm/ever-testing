@@ -25,11 +25,11 @@ ActiveAdmin.register User do
     column :user_level
 
     column 'English task' do |user|
-      link_to 'English task ' + user.english_task.id, admin_task_path(user.english_task) if user.english_task.present?
+      link_to 'English task ' + user.english_task.id.to_s, admin_task_path(user.english_task) if user.english_task.present?
     end
 
     column 'Technical task' do |user|
-      link_to 'Technical task ' + user.technical_task.id, admin_task_path(user.technical_task) if user.technical_task.present?
+      link_to 'Technical task ' + user.technical_task.id.to_s, admin_task_path(user.technical_task) if user.technical_task.present?
     end
 
     column :created_at
