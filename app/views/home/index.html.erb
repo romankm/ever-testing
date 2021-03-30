@@ -2,10 +2,21 @@
 
 <div class="row">
   <div class="col border p-3">
-    <% technical_task_is_assigned = current_user.technical_task.present? %>
+  <% technical_task_is_assigned = current_user.technical_task.present? %>
 
-    <h3><%= technical_task_is_assigned ? 'Technical task' : 'Answer for technical task' %></h3>
-    <% if technical_task_is_assigned %>
+  <h3><%= !technical_task_is_assigned ? 'Technical task' : 'Answer for technical task' %></h3>
+  <% if technical_task_is_assigned %>
+    <% if current_user.technical_task.answer.present? %>
+      <% unless current_user.technical_task.answer.link.to_s.strip.empty? %>
+          <%= link_to 'Link to repository', current_user.technical_task.answer.link, target: '_blank' %> <br>
+      <% end %>
+      <% if current_user.technical_task.answer.attachment.attached? %>
+        <%= link_to(
+              "Завантажений файл: #{ current_user.technical_task.answer.attachment.filename.to_s }",
+              rails_blob_path(current_user.english_task.answer.attachment, disposition: 'attachment'),
+            ) %>
+      <% end %>
+    <% else %>
       <div class="card" style="width: 100%;">
         <div class="card-body">
           <p class="card-text">
@@ -14,47 +25,41 @@
           <%= link_to 'Завантажити тестове', "answers/new/#{ current_user.technical_task.id }", class: 'card-link'%>
         </div>
       </div>
-    <%  else  %>
-      <%=  form_with name: 'task_type', url: assign_task_url, class: '', method: :patch do |f|  %>
-        <%= f.hidden_field :task_type, value: Task.task_types[:technical] %>
-        <%= f.submit 'Get one', class: 'btn btn-primary'  %>
-      <%  end  %>
-    <%  end %>
-  </div>
+    <% end %>
+  <% else # if technical_task_is_assigned %>
+    <%=  form_with name: 'task_type', url: assign_task_url, class: '', method: :patch do |f|  %>
+      <%= f.hidden_field :task_type, value: Task.task_types[:technical] %>
+      <%= f.submit 'Get one', class: 'btn btn-primary'  %>
+    <%  end  %>
+  <% end # if technical_task_is_assigned %>
+</div>
 
+<!-- English -->
   <div class="col border p-3 ">
     <% english_task_is_assigned = current_user.english_task.present? %>
-    <h3>English task</h3>
+    <h3><%= !english_task_is_assigned ? 'English task' : 'Answer for English task' %></h3>
     <% if english_task_is_assigned %>
-      <div class="card" style="width: 100%;">
-        <div class="card-body">
-          <p class="card-text">
-            <%= current_user.technical_task.body %>
-          </p>
-          <%= link_to 'Завантажити тест англійської', "answers/new/#{ current_user.english_task.id }", class: 'card-link'%>
+      <% if current_user.english_task.answer.present? && current_user.english_task.answer.attachment.attached? %>
+        Завантажений файл:
+        <%= link_to(
+              current_user.english_task.answer.attachment.filename,
+              rails_blob_path(current_user.english_task.answer.attachment, disposition: 'attachment')
+        ) %>
+      <% else %>
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <p class="card-text">
+              <%= current_user.technical_task.body %>
+            </p>
+            <%= link_to 'Завантажити тест англійської', "answers/new/#{ current_user.english_task.id }", class: 'card-link'%>
+          </div>
         </div>
-      </div>
+      <% end %>
     <%  else  %>
       <%= form_with name: 'task_type', url: assign_task_url, method: :patch do |f|  %>
         <%=  f.hidden_field :task_type, value: Task.task_types[:english]  %>
         <%= f.submit 'Тест Англійської', class: 'btn btn-primary' %>
       <% end %>
     <%  end %>
-
-      <%#= form_with name: 'answer', url: 'answer' , class: '', multipart: true do |f| %>
-        <%#= f.hidden_field :task_type, value: Task.task_types[:english] %>
-<!--        <div class="field">-->
-          <%#= f.label 'File', for: :attachment %>
-          <%#= f.file_field :attachment %>
-<!--        </div>-->
-<!--        <div class="field">-->
-          <%#= f.label 'Github repository url', for: :answer_url %>
-          <%#= f.text_field :answer_url %>
-<!--        </div>-->
-        <%#= f.submit 'Submit answer', class: 'btn btn-primary' %>
-      <%# end %>
-    <%# else %>
-
-    <%# end %>
   </div>
 </div>

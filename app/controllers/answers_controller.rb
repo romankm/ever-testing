@@ -21,20 +21,14 @@ class AnswersController < ApplicationController
   def create
     filtered_answer_params = answer_params
     @answer = Answer.new(filtered_answer_params)
-    @task   = Task.find_by(id: filtered_answer_params[task_id])
+    @task   = Task.find_by(id: filtered_answer_params[:task_id])
 
-    uploaded_io = filtered_answer_params[:attachment]
+    @answer.attachment.attach(filtered_answer_params[:attachment])
 
-    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-
-    if @answer.save
-      redirect_to :root
-    end
-
-    render new_answer_for_task
+    redirect_to root_path
   end
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

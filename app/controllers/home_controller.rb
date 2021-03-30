@@ -2,13 +2,6 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    if current_user.english_task.present?
-      @english_task = current_user.english_task
-    end
-
-    if current_user.technical_task.present?
-      @technical_task = current_user.technical_task
-    end
   end
 
   def assign_task
@@ -21,10 +14,6 @@ class HomeController < ApplicationController
     end
 
     redirect_to :root
-  end
-
-  def submit_answer
-
   end
 
   private

@@ -1,11 +1,11 @@
 <h1>New Answer</h1>
 
 <% if @task.technical? %>
-  <%= render 'technical_answer_form', answer: @answer %>
+  <%= render 'technical_answer_form', answer: @answer, task_id: @task %>
 <% end %>
 
 <% if @task.english? %>
-  <%= render 'english_answer_form', answer: @answer %>
+  <%= render 'english_answer_form', answer: @answer, task_id: @task %>
 <% end %>
 
 <%= link_to 'Back', root_path %>
