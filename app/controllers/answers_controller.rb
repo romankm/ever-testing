@@ -20,15 +20,19 @@ class AnswersController < ApplicationController
 
   def create
     filtered_answer_params = answer_params
-    @answer = Answer.new(filtered_answer_params)
     @task   = Task.find_by(id: filtered_answer_params[:task_id])
 
-    @answer.attachment.attach(filtered_answer_params[:attachment])
+    @answer = Answer.new(filtered_answer_params)
+    @answer.task = @task
+    @answer.user = current_user
+    # @answer.attachment.attach(filtered_answer_params[:attachment])
 
-    redirect_to root_path
+    if @answer.save
+      redirect_to controller: 'home', action: 'index'
+    else
+      render :new
+    end
   end
-
-
 
   private
     # Use callbacks to share common setup or constraints between actions.

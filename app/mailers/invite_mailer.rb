@@ -8,6 +8,6 @@ class InviteMailer < ApplicationMailer
   end
 
   def host
-    Rails.application.config.action_mailer.default_url_options.host
+    Rails.application.config.action_mailer.default_url_options[ :host ]
   end
 end

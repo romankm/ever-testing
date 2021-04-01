@@ -14,7 +14,16 @@ ActiveAdmin.register Task do
     f.actions
   end
 
-  show do
-    render 'show', { task: task }
+  action_item only: [:show] do
+    link_to('Download File', download_task_path(resource)) if resource.upload_file.present?
   end
+
+  member_action :download, method: :get do
+    task = Task.find(params[:id])
+    send_file task.attachment
+  end
+
+  # show do
+  #   render 'show', { task: task }
+  # end
 end
