@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_114445) do
     t.bigint "user_id", null: false
     t.bigint "task_id", null: false
     t.string "link"
-    t.string "attachment"
+    t.string "attached_file"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["task_id"], name: "index_answers_on_task_id"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_114445) do
 
   create_table "tasks", force: :cascade do |t|
     t.text "body"
-    t.string "attachment"
+    t.string "attached_file"
     t.string "task_type", default: "technical", null: false
     t.string "user_level", default: "junior", null: false
     t.datetime "created_at", precision: 6, null: false

@@ -4,7 +4,7 @@ ActiveAdmin.register User do
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # Uncomment all parameters which should be permitted for assignment
-
+  menu label: 'Invited Users'
   permit_params :email, :user_level, :password #, :reset_password_token, :encrypted_password
 
   form title: 'Create invite' do |f|
@@ -36,4 +36,15 @@ ActiveAdmin.register User do
 
     actions
   end
+
+  # # In app/admin/users.rb
+  # action_item only: [:show] do
+  #   link_to('Download File', download_admin_user_path(resource)) if resource.upload_file.present?
+  # end
+
+  # member_action :download, method: :get do
+  #   user = User.find(params[:id])
+  #   send_file user.upload_file
+  # end
+
 end

@@ -17,7 +17,7 @@
       <tr>
         <td><%= task.body %></td>
         <td><%= task.level %></td>
-        <td><%= task.attachment %></td>
+        <td><%= task.attached_file %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -10,10 +10,10 @@
       <% unless @technical_task_answer.link.to_s.strip.empty? %>
           <%= link_to 'Link to repository', @technical_task_answer.link, target: '_blank' %> <br>
       <% end %>
-      <% if @technical_task_answer.attachment.attached? %>
+      <% if @technical_task_answer.attached_file.attached? %>
         <%= link_to(
-              "Завантажений файл: #{ @technical_task_answer.attachment.filename.to_s }",
-              rails_blob_path(@technical_task_answer.attachment, disposition: 'attachment'),
+              "Завантажений файл: #{ @technical_task_answer.attached_file.filename.to_s }",
+              rails_blob_path(@technical_task_answer.attached_file, disposition: 'attachment'),
             ) %>
       <% end %>
     <% else %>
@@ -39,12 +39,12 @@
     <% english_task_is_assigned = current_user.english_task.present? %>
     <h3><%= !english_task_is_assigned ? 'English task' : 'Answer for English task' %></h3>
     <% if english_task_is_assigned %>
-      <%# if @english_task_answer.present? && @english_task_answer.attachment.attached? %>
+      <%# if @english_task_answer.present? && @english_task_answer.attached_file.attached? %>
       <% if @eta_attachment.present? && @eta_attachment.attached? %>
         Завантажений файл:
         <%= link_to(
               @eta_attachment.filename,
-              # rails_blob_path(@english_task_answer.attachment, disposition: 'attachment')
+              # rails_blob_path(@english_task_answer.attached_file, disposition: 'attachment')
               rails_blob_path(@eta_attachment, disposition: 'attachment')
         ) %>
       <% else %>
